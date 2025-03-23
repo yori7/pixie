@@ -1,27 +1,33 @@
-import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
-import {
-  defineConfigWithVueTs,
-  vueTsConfigs,
-} from '@vue/eslint-config-typescript';
-import pluginVue from 'eslint-plugin-vue';
+import { defineConfig } from 'eslint-define-config';
 
-// To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
-// import { configureVueProject } from '@vue/eslint-config-typescript'
-// configureVueProject({ scriptLangs: ['ts', 'tsx'] })
-// More info at https://github.com/vuejs/eslint-config-typescript/#advanced-setup
-
-export default defineConfigWithVueTs(
-  {
-    name: 'app/files-to-lint',
-    files: ['**/*.{ts,mts,tsx,vue}'],
+export default defineConfig({
+  root: true, // プロジェクトのルートとして設定
+  ignorePatterns: ['node_modules/', 'dist/'], // 除外するディレクトリ
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:jsx-a11y/recommended',
+    'prettier',
+  ],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: './tsconfig.json',
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-
-  {
-    name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**'],
+  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'jsx-a11y'],
+  rules: {
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    'react/react-in-jsx-scope': 'off', // Next.js では不要
+    'react-hooks/rules-of-hooks': 'error', // フックのルールを厳格に適用
+    'react-hooks/exhaustive-deps': 'warn', // 依存配列のチェック
   },
-
-  pluginVue.configs['flat/essential'],
-  vueTsConfigs.recommended,
-  skipFormatting
-);
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
+});

@@ -1,19 +1,13 @@
-import { fileURLToPath, URL } from 'node:url';
-
-import vue from '@vitejs/plugin-vue';
+import tailwindcss from '@tailwindcss/vite';
+import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import vuetify from 'vite-plugin-vuetify';
 
 const host = process.env.TAURI_DEV_HOST;
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
-  plugins: [vue(), vuetify()],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
+  plugins: [react(), tailwindcss()],
+
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
   // 1. prevent vite from obscuring rust errors
