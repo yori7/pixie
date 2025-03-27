@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 function SideBar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [_isOpen, setIsOpen] = useState(false);
 
   return (
     <>
